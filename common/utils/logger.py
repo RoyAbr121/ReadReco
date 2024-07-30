@@ -1,5 +1,5 @@
 from abc import ABCMeta, abstractmethod
-from singletonmeta import SingletonMeta
+from singleton_metaclass import SingletonMeta
 import logging
 
 

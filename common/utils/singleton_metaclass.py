@@ -1,7 +1,7 @@
 import threading
 
 
-class SingletonMetaclass(type):
+class SingletonMeta(type):
     _instances = {}
     _lock = threading.Lock()
 
