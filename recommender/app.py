@@ -1,8 +1,12 @@
+import os
+
 from flask import Flask
 from flask_smorest import Api
-
+from dotenv import load_dotenv
 
 def create_app():
+    load_dotenv()
+
     app = Flask(__name__)
 
     app.config["PROPAGATE_EXCEPTIONS"] = True
@@ -20,4 +24,9 @@ def create_app():
 
 if __name__ == '__main__':
     app = create_app()
-    app.run("0.0.0.0", port=7001, debug=True)
+
+    host = os.getenv('GATEWAY_ADDRESS')
+    port = os.getenv('GATEWAY_PORT')
+    debug = os.getenv('DEBUG')
+
+    app.run(host=host, port=port, debug=debug)
