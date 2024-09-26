@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  milvus-etcd:
+    image: milvusdb/etcd:latest
+    ports:
+      - "2379:2379"
+    environment:
+      ALLOW_NONE_AUTHENTICATION: yes
+    volumes:
+      - ./volumes/etcd:/var/lib/etcd
+
+  milvus-minio:
+    image: minio/minio:latest
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    command: server /data
+
+  milvus-standalone:
+    image: milvusdb/milvus:latest
+    ports:
+      - "19530:19530"
+    environment:
+      MINIO_ADDRESS: milvus-minio:9000
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+    volumes:
+      - ./volumes/milvus:/var/lib/milvus
