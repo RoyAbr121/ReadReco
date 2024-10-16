@@ -1,6 +1,5 @@
 import os
 
-from dotenv import load_dotenv
 from langchain.chains import create_history_aware_retriever, create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.messages import HumanMessage, SystemMessage
@@ -24,7 +23,7 @@ def create_rag_chain(llm_model, db_retriever):
 
 def continual_chat():
     print("Start chatting with the AI! Type 'exit' to end the conversation.")
-    chat_history = []
+    chat_history = []  # Collect chat history here (a sequence of messages)
 
     while True:
         query = input("You: ")
@@ -32,12 +31,16 @@ def continual_chat():
         if query.lower() == "exit":
             break
 
+        # Process the user's query through the retrieval chain
         result = rag_chain.invoke({"input": query, "chat_history": chat_history})
+
+        # Display the AI's response
         print(f"AI: {result['answer']}")
+
+        # Update the chat history
         chat_history.append(HumanMessage(content=query))
         chat_history.append(SystemMessage(content=result["answer"]))
 
-load_dotenv()
 db = db
 
 model = os.getenv('CHAT_OPENAI_MODEL')
