@@ -43,7 +43,7 @@ def continual_chat():
 
 db = db
 
-model = os.getenv('CHAT_OPENAI_MODEL')
+model = os.getenv('OPENAI_API_MODEL')
 search_type = os.getenv('RETRIEVER_SEARCH_TYPE')
 k = int(os.getenv('RETRIEVER_K_VALUE'))
 

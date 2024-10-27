@@ -1,9 +1,13 @@
 import os
 
-from flask import Flask
+from flask import Flask, jsonify, request
 from flask_smorest import Api
 from dotenv import load_dotenv
+import requests
 
+current_dir = os.path.dirname(os.path.abspath(__file__))
+dotenv_path = os.path.join(current_dir, '..', '.env')
+load_dotenv(dotenv_path)
 
 def create_app():
     app = Flask(__name__)
@@ -18,15 +22,19 @@ def create_app():
 
     api = Api(app)
 
-    @app.route('/')
-    def hello_world():
-        return 'Hello, World!'
+    @app.route('/recommend', methods=['GET'])
+    def recommend():
+        data = request.json
+        query = data.get("query")
+        url = f'http://127.0.0.1:5001/recommend'
+        response = requests.get(url, params=query)
+
+        return response
 
     return app
 
 
 if __name__ == '__main__':
-    load_dotenv()
     host = os.getenv('GATEWAY_ADDRESS')
     port = os.getenv('GATEWAY_PORT')
     debug = os.getenv('DEBUG')
