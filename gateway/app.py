@@ -31,6 +31,26 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
+    @app.route('/recommendations', methods=['GET'])
+    def recommendations():
+
+        query = request.json.get("query")
+
+        if not query:
+            return jsonify({"error": "Query parameter is required"}), 400
+
+        url = f"http://{RECOMMENDER_ADDRESS}:{RECOMMENDER_PORT}/recommend"
+        headers = {'Content-Type': 'application/json'}
+        data = json.dumps({"query": query})
+
+        try:
+            response = requests.post(url=url, headers=headers, data=data)
+            response.raise_for_status()
+        except requests.RequestException as e:
+            return jsonify({"error": "Failed to retrieve recommendations"}), 500
+
+        return jsonify({"recommendations": response.json().get("answer", [])}), 200
+
     return app
 
 

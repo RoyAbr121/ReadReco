@@ -31,6 +31,14 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
+    @app.route('/recommend', methods=['POST'])
+    def recommend():
+        query = request.json.get("query")
+        output = rag_chain.invoke({"input": query, "chat_history": chat_history})
+        answer = output.get("answer", [])
+
+        return jsonify({"answer": answer}), 200
+
     return app
 
 
