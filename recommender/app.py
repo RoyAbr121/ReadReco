@@ -8,6 +8,13 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 dotenv_path = os.path.join(current_dir, '..', '.env')
 load_dotenv(dotenv_path)
 
+RECOMMENDER_ADDRESS = os.getenv('RECOMMENDER_ADDRESS')
+RECOMMENDER_PORT = os.getenv('RECOMMENDER_PORT')
+DEBUG = os.getenv('DEBUG')
+
+if not RECOMMENDER_ADDRESS or not RECOMMENDER_PORT or not DEBUG:
+    raise ValueError("RECOMMENDER_ADDRESS, RECOMMENDER_PORT and DEBUG must be set.")
+
 
 class Config:
     PROPAGATE_EXCEPTIONS = True
@@ -19,18 +26,9 @@ class Config:
     OPENAPI_SWAGGER_UI_URL = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
 
 
-def create_app():
-    app = Flask(__name__)
-    app.config.from_object(Config)
-    app.register_blueprint(recommender_bp)
-
-    return app
-
+app = Flask(__name__)
+app.config.from_object(Config)
+app.register_blueprint(recommender_bp)
 
 if __name__ == '__main__':
-    host = os.getenv('RECOMMENDER_ADDRESS')
-    port = os.getenv('RECOMMENDER_PORT')
-    debug = os.getenv('DEBUG')
-
-    app = create_app()
-    app.run(host=host, port=port, debug=debug)
+    app.run(host=RECOMMENDER_ADDRESS, port=RECOMMENDER_PORT, debug=DEBUG)

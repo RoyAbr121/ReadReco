@@ -14,6 +14,8 @@ load_dotenv(dotenv_path)
 RECOMMENDER_ADDRESS = os.getenv('RECOMMENDER_ADDRESS')
 RECOMMENDER_PORT = os.getenv('RECOMMENDER_PORT')
 
+if not RECOMMENDER_ADDRESS or not RECOMMENDER_PORT:
+    raise ValueError("GATEWAY_ADDRESS and GATEWAY_PORT must be set.")
 gateway_bp = Blueprint('gateway', __name__)
 
 

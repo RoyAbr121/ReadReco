@@ -8,6 +8,13 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 dotenv_path = os.path.join(current_dir, '..', '.env')
 load_dotenv(dotenv_path)
 
+GATEWAY_ADDRESS = os.getenv('GATEWAY_ADDRESS')
+GATEWAY_PORT = os.getenv('GATEWAY_PORT')
+DEBUG = os.getenv('DEBUG')
+
+if not GATEWAY_ADDRESS or not GATEWAY_PORT or not DEBUG:
+    raise ValueError("GATEWAY_ADDRESS, GATEWAY_PORT and DEBUG must be set.")
+
 
 class Config:
     PROPAGATE_EXCEPTIONS = True
@@ -19,17 +26,9 @@ class Config:
     OPENAPI_SWAGGER_UI_URL = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
 
 
-def create_app():
-    app = Flask(__name__)
-    app.config.from_object(Config)
-    app.register_blueprint(gateway_bp)
-
-    return app
-
+app = Flask(__name__)
+app.config.from_object(Config)
+app.register_blueprint(gateway_bp)
 
 if __name__ == '__main__':
-    host = os.getenv('GATEWAY_ADDRESS')
-    port = os.getenv('GATEWAY_PORT')
-    debug = os.getenv('DEBUG')
-    app = create_app()
-    app.run(host=host, port=port, debug=debug)
+    app.run(host=GATEWAY_ADDRESS, port=GATEWAY_PORT, debug=DEBUG)
