@@ -41,8 +41,6 @@ def continual_chat():
         chat_history.append(HumanMessage(content=query))
         chat_history.append(SystemMessage(content=result["answer"]))
 
-db = db
-
 model = os.getenv('OPENAI_API_MODEL')
 search_type = os.getenv('RETRIEVER_SEARCH_TYPE')
 k = int(os.getenv('RETRIEVER_K_VALUE'))

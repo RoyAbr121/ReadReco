@@ -2,7 +2,7 @@ import os
 import json
 import requests
 
-from flask import Flask, jsonify, request
+from flask import jsonify, request
 from flask_smorest import Blueprint
 from dotenv import load_dotenv
 

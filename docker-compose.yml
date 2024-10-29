@@ -1,11 +1,11 @@
-version: '3.8'
+version: '3.9'
 
 services:
   gateway:
     build:
       context: ./gateway
     ports:
-      - "5000:7000"
+      - "7000:7000"
     depends_on:
       - recommender
     environment:
@@ -16,7 +16,7 @@ services:
     build:
       context: ./recommender
     ports:
-      - "5001:7001"
+      - "7001:7001"
     environment:
       - FLASK_ENV=development
 
