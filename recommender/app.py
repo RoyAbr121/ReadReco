@@ -1,20 +1,12 @@
 import os
 
-from flask import Flask, jsonify, request
-from flask_smorest import Api
+from flask import Flask
 from dotenv import load_dotenv
-import requests
-
-from recommender import rag_chain
+from recommender.routes import recommender_bp
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 dotenv_path = os.path.join(current_dir, '..', '.env')
 load_dotenv(dotenv_path)
-
-GATEWAY_ADDRESS = os.getenv('GATEWAY_ADDRESS')
-GATEWAY_PORT = os.getenv('GATEWAY_PORT')
-rag_chain = rag_chain
-chat_history = []
 
 
 class Config:
@@ -30,14 +22,7 @@ class Config:
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
-
-    @app.route('/recommend', methods=['POST'])
-    def recommend():
-        query = request.json.get("query")
-        output = rag_chain.invoke({"input": query, "chat_history": chat_history})
-        answer = output.get("answer", [])
-
-        return jsonify({"answer": answer}), 200
+    app.register_blueprint(recommender_bp)
 
     return app
 
