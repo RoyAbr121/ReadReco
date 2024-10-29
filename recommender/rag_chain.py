@@ -31,15 +31,11 @@ def continual_chat():
         if query.lower() == "exit":
             break
 
-        # Process the user's query through the retrieval chain
         result = rag_chain.invoke({"input": query, "chat_history": chat_history})
-
-        # Display the AI's response
         print(f"AI: {result['answer']}")
-
-        # Update the chat history
         chat_history.append(HumanMessage(content=query))
         chat_history.append(SystemMessage(content=result["answer"]))
+
 
 model = os.getenv('OPENAI_API_MODEL')
 search_type = os.getenv('RETRIEVER_SEARCH_TYPE')

@@ -2,7 +2,7 @@ import os
 
 from flask import jsonify, request
 from flask_smorest import Blueprint
-from recommender import rag_chain
+from rag_chain import rag_chain
 from dotenv import load_dotenv
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
