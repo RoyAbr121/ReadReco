@@ -1,5 +1,5 @@
 from flask import Flask
-from routes import gateway_bp
+from routes import blueprint_gateway
 
 
 class Config:
@@ -14,4 +14,4 @@ class Config:
 
 app = Flask(__name__)
 app.config.from_object(Config)
-app.register_blueprint(gateway_bp)
+app.register_blueprint(blueprint_gateway)

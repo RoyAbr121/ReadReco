@@ -1,5 +1,5 @@
 from flask import Flask
-from routes import recommender_bp
+from routes import blueprint_recommender
 
 
 class Config:
@@ -14,4 +14,4 @@ class Config:
 
 app = Flask(__name__)
 app.config.from_object(Config)
-app.register_blueprint(recommender_bp)
+app.register_blueprint(blueprint_recommender)

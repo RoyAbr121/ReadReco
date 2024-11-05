@@ -9,4 +9,4 @@ COPY . .
 
 EXPOSE 7001
 
-CMD ["python", "app.py"]
+CMD ["python", "run.py"]
